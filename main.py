@@ -1,3 +1,4 @@
+from function import *
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import time
@@ -6,10 +7,9 @@ browser = webdriver.Chrome("chromedriver.exe")
 browser.get("https://moodle2021.vtc.edu.hk/")
 input()
 mycourses = browser.find_element_by_class_name('mycourses').find_elements_by_tag_name('li')
-courses = []
 data = []
-for course in mycourses:
-    courses.append([course.find_element_by_tag_name('a').get_attribute('innerHTML'), course.find_element_by_tag_name('a').get_attribute('href')])
+
+courses = grab_courses_list(mycourses)
 
 for course in courses:
     activitys = []
