@@ -12,7 +12,7 @@ configs = {}
 with open("config.json", "r") as c:
     configs = json.load(c)
 
-#load_dotenv()
+# load_dotenv()
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--headless")
@@ -23,7 +23,7 @@ chrome_options.add_argument(
 
 
 def grab_data():
-    browser = webdriver.Chrome(configs['chrome_driver'], options=chrome_options)
+    browser = webdriver.Chrome(executable_path=configs['chrome_driver'], options=chrome_options)
     browser.get(configs["moodle_host"] + "/my")
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
@@ -100,7 +100,7 @@ def fetchRecentEvents(sesskey, mcookies, timesortfrom, timesortto):
                  "args": {"limitnum": 26, "timesortfrom": timesortfrom, "timesortto": timesortto,
                           "limittononsuspendedevents": True}}]
     link = configs[
-        "moodle_host"] + "/lib/ajax/service.php?sesskey=" + sesskey + "&info=core_calendar_get_action_events_by_timesort"
+               "moodle_host"] + "/lib/ajax/service.php?sesskey=" + sesskey + "&info=core_calendar_get_action_events_by_timesort"
     r = requests.post(link, verify=False, cookies=mcookies, data=json.dumps(postData))
     return r
 
