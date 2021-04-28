@@ -23,7 +23,7 @@ chrome_options.add_argument(
 
 
 def grab_data():
-    browser = webdriver.Chrome("chromedriver.exe", options=chrome_options)
+    browser = webdriver.Chrome(configs['chrome_driver'], options=chrome_options)
     browser.get(configs["moodle_host"] + "/my")
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
