@@ -1,13 +1,9 @@
 from function import *
+from discord_handler import *
 from selenium import webdriver
 import time
+from dotenv import load_dotenv
+load_dotenv()
 
+dcbot.run(os.getenv("Discord_APIKEY"))
 
-
-browser = webdriver.Chrome("chromedriver.exe")
-browser.get(os.getenv("moodle_host")+"/my")
-input()
-timesortfrom = 1619452800
-timesortto = 1620057600
-data = getRecentEvents(fetchRecentEvents(getSesskey(browser), getCookies(browser), timesortfrom, timesortto))
-browser.quit()

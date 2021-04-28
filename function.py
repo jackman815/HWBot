@@ -1,10 +1,32 @@
 import os
+import time
+
 from selenium import webdriver
 import json
 import requests
 from dotenv import load_dotenv
 load_dotenv()
 
+def grab_data():
+    browser = webdriver.Chrome("chromedriver.exe")
+    browser.get(os.getenv("moodle_host") + "/my")
+    while (browser.execute_script('return document.readyState;') != 'complete'):
+        time.sleep(1)
+    browser.find_element_by_name("username").send_keys(os.getenv("moodle_username"))
+    browser.find_element_by_name("password").send_keys(os.getenv("moodle_password"))
+    browser.find_element_by_name("password").submit()
+    while (browser.execute_script('return document.readyState;') != 'complete'):
+        time.sleep(1)
+    timesortfrom = 1619452800
+    timesortto = 1620057600
+    data = getRecentEvents(fetchRecentEvents(getSesskey(browser), getCookies(browser), timesortfrom, timesortto))
+    browser.quit()
+    return data
+
+def waitPageReady(browser):
+    while (browser.execute_script('return document.readyState;') != 'complete'):
+        time.sleep(1)
+    return True
 
 def grab_courses_list(mycourses):
     courses = []
