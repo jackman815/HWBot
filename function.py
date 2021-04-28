@@ -1,14 +1,20 @@
 import os
 import time
-
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import json
 import requests
 from dotenv import load_dotenv
+from datetime import datetime
+from datetime import timedelta
 load_dotenv()
+chrome_options = Options()
+chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-gpu")
 
 def grab_data():
-    browser = webdriver.Chrome("chromedriver.exe")
+    browser = webdriver.Chrome("chromedriver.exe", options=chrome_options)
     browser.get(os.getenv("moodle_host") + "/my")
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
@@ -18,7 +24,9 @@ def grab_data():
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
     timesortfrom = 1619452800
-    timesortto = 1620057600
+    timesortfrom = int(datetime.now().timestamp())
+    #timesortto = 1620057600
+    timesortto = int((datetime.now() + timedelta(days=14)).timestamp())
     data = getRecentEvents(fetchRecentEvents(getSesskey(browser), getCookies(browser), timesortfrom, timesortto))
     browser.quit()
     return data
