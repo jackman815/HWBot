@@ -8,22 +8,27 @@ from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
 
-load_dotenv()
+configs = {}
+with open("config.json", "r") as c:
+    configs = json.load(c)
+
+#load_dotenv()
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument(
     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36")
 
 
 def grab_data():
     browser = webdriver.Chrome("chromedriver.exe", options=chrome_options)
-    browser.get(os.getenv("moodle_host") + "/my")
+    browser.get(configs["moodle_host"] + "/my")
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
-    browser.find_element_by_name("username").send_keys(os.getenv("moodle_username"))
-    browser.find_element_by_name("password").send_keys(os.getenv("moodle_password"))
+    browser.find_element_by_name("username").send_keys(configs["moodle_username"])
+    browser.find_element_by_name("password").send_keys(configs["moodle_password"])
     browser.find_element_by_name("password").submit()
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
@@ -94,8 +99,8 @@ def fetchRecentEvents(sesskey, mcookies, timesortfrom, timesortto):
     postData = [{"index": 0, "methodname": "core_calendar_get_action_events_by_timesort",
                  "args": {"limitnum": 26, "timesortfrom": timesortfrom, "timesortto": timesortto,
                           "limittononsuspendedevents": True}}]
-    link = os.getenv(
-        "moodle_host") + "/lib/ajax/service.php?sesskey=" + sesskey + "&info=core_calendar_get_action_events_by_timesort"
+    link = configs[
+        "moodle_host"] + "/lib/ajax/service.php?sesskey=" + sesskey + "&info=core_calendar_get_action_events_by_timesort"
     r = requests.post(link, verify=False, cookies=mcookies, data=json.dumps(postData))
     return r
 
