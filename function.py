@@ -7,11 +7,15 @@ import requests
 from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
+
 load_dotenv()
 chrome_options = Options()
 chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument(
+    "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36")
+
 
 def grab_data():
     browser = webdriver.Chrome("chromedriver.exe", options=chrome_options)
@@ -23,18 +27,20 @@ def grab_data():
     browser.find_element_by_name("password").submit()
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
-    timesortfrom = 1619452800
+    # timesortfrom = 1617206400
     timesortfrom = int(datetime.now().timestamp())
-    #timesortto = 1620057600
+    # timesortto = 1620057600
     timesortto = int((datetime.now() + timedelta(days=14)).timestamp())
     data = getRecentEvents(fetchRecentEvents(getSesskey(browser), getCookies(browser), timesortfrom, timesortto))
     browser.quit()
     return data
 
+
 def waitPageReady(browser):
     while (browser.execute_script('return document.readyState;') != 'complete'):
         time.sleep(1)
     return True
+
 
 def grab_courses_list(mycourses):
     courses = []
@@ -83,11 +89,12 @@ def getSesskey(browser):
     return browser.execute_script("return M.cfg['sesskey']")
 
 
-def fetchRecentEvents(sesskey, mcookies, timesortfrom,timesortto):
+def fetchRecentEvents(sesskey, mcookies, timesortfrom, timesortto):
     postData = [{"index": 0, "methodname": "core_calendar_get_action_events_by_timesort",
                  "args": {"limitnum": 26, "timesortfrom": timesortfrom, "timesortto": timesortto,
                           "limittononsuspendedevents": True}}]
-    link = os.getenv("moodle_host")+"/lib/ajax/service.php?sesskey=" + sesskey + "&info=core_calendar_get_action_events_by_timesort"
+    link = os.getenv(
+        "moodle_host") + "/lib/ajax/service.php?sesskey=" + sesskey + "&info=core_calendar_get_action_events_by_timesort"
     r = requests.post(link, verify=False, cookies=mcookies, data=json.dumps(postData))
     return r
 
