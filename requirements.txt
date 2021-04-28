@@ -1,0 +1,27 @@
+aiohttp==3.7.4.post0
+async-timeout==3.0.1
+attrs==20.3.0
+beautifulsoup4 @ file:///home/linux1/recipes/ci/beautifulsoup4_1610988766420/work
+brotlipy==0.7.0
+certifi==2020.12.5
+cffi @ file:///C:/ci/cffi_1613247431367/work
+chardet @ file:///C:/ci/chardet_1607706937985/work
+cryptography @ file:///C:/ci/cryptography_1616769504165/work
+discord==1.0.1
+discord.py==1.7.1
+idna @ file:///home/linux1/recipes/ci/idna_1610986105248/work
+multidict==5.1.0
+pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
+pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1608057966937/work
+PySocks @ file:///C:/ci/pysocks_1605307512533/work
+python-dotenv==0.17.0
+pytz==2021.1
+requests @ file:///tmp/build/80754af9/requests_1608241421344/work
+selenium @ file:///C:/ci/selenium_1614268120390/work
+six @ file:///C:/ci/six_1605205404068/work
+soupsieve @ file:///tmp/build/80754af9/soupsieve_1616183228191/work
+typing-extensions==3.7.4.3
+urllib3 @ file:///tmp/build/80754af9/urllib3_1615837158687/work
+win-inet-pton @ file:///C:/ci/win_inet_pton_1605306162074/work
+wincertstore==0.2
+yarl==1.6.3
