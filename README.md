@@ -6,7 +6,8 @@ HWBOT is a discord bot that can remind you of the deadline for assignment on moo
 
 Clone this repository and update the details on config.json. 
 
-###Requirements 
+### Requirements 
+
 ```bash
 pip install selenium discord pytz python-dotenv requests urllib3
 ```
