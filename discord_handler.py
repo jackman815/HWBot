@@ -35,3 +35,15 @@ async def due(ctx):
             await ctx.send(embed=embed)
     else:
         await ctx.reply(embed=discord.Embed(title="No recent events.", color=0x00ff59))
+
+
+@dcbot.event
+async def on_message(message):
+    # Ignore private messages
+    if message.author == dcbot.user:
+        return
+    if isinstance(message.channel, discord.DMChannel):
+        print(message.author.name + " send the DM: " + message.content)
+        await message.channel.send('Private message is disabled.')
+        return
+    await dcbot.process_commands(message)

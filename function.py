@@ -38,7 +38,7 @@ def grab_data():
     timesortto = int((datetime.now() + timedelta(days=14)).timestamp())
     data = getRecentEvents(fetchRecentEvents(getSesskey(browser), getCookies(browser), timesortfrom, timesortto))
     browser.quit()
-    print(data)
+    #print(data)
     return data
 
 
