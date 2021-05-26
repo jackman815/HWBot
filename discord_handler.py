@@ -13,7 +13,7 @@ dcbot = discord.ext.commands.Bot(command_prefix="%")
 
 @dcbot.command()
 async def ping(ctx):
-    await ctx.send(dcbot.latency)
+    await ctx.send(f"{dcbot.latency*1000} ms")
 
 
 @dcbot.command()
