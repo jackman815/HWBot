@@ -24,14 +24,10 @@ chrome_options.add_argument(
 
 def grab_data():
     browser = webdriver.Chrome(executable_path=configs['chrome_driver'], options=chrome_options)
-    browser.get(configs["moodle_host"] + "/my")
-    while (browser.execute_script('return document.readyState;') != 'complete'):
-        time.sleep(1)
-    browser.find_element_by_name("username").send_keys(configs["moodle_username"])
-    browser.find_element_by_name("password").send_keys(configs["moodle_password"])
-    browser.find_element_by_name("password").submit()
-    while (browser.execute_script('return document.readyState;') != 'complete'):
-        time.sleep(1)
+    if configs["login_method"] == "adfs":
+        Login(browser, 1)
+    else:
+        Login(browser, 0)
     # timesortfrom = 1617206400
     timesortfrom = int(datetime.now().timestamp())
     # timesortto = 1620057600
@@ -111,3 +107,37 @@ def getRecentEvents(response):
     for i in events:
         print(i)
     return events
+
+
+def Login(browser, method):
+    if method == 0:
+        browser.get(configs["moodle_host"] + "/my")
+        waitPageReady(browser)
+        browser.find_element_by_name("username").send_keys(configs["moodle_username"])
+        browser.find_element_by_name("password").send_keys(configs["moodle_password"])
+        browser.find_element_by_name("password").submit()
+        waitPageReady(browser)
+    elif method == 1:
+        browser.get(configs["moodle_host"] + "/my")
+        browser.find_element_by_class_name("potentialidp").find_element_by_class_name("btn-sign").click()
+        waitPageReady(browser)
+        browser.find_element_by_id("userNameInput").send_keys(configs["moodle_username"])
+        browser.find_element_by_id("passwordInput").send_keys(configs["moodle_password"])
+        browser.find_element_by_id("passwordInput").submit()
+        waitPageReady(browser)
+
+
+def getUpcomingEvents(browser):
+    data = []
+    if configs["login_method"] == "adfs":
+        Login(browser, 1)
+    else:
+        Login(browser, 0)
+    browser.get(configs["moodle_host"] + "/calendar/view.php?view=upcoming")
+    waitPageReady(browser)
+    events = browser.find_elements_by_class_name("event")
+    for event in events:
+        data.append([event.get_attribute("data-event-id"), event.get_attribute("data-event-title"),
+                     event.find_element_by_class_name("description").text,
+                     event.find_element_by_class_name("description-content").text,
+                     event.find_element_by_xpath('//div[2]/div/div[2]').text, ])
