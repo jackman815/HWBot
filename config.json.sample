@@ -4,5 +4,6 @@
   "Discord_APIKEY" : "",
   "moodle_username" : "",
   "moodle_password" : "",
-  "chrome_driver" : ""
+  "chrome_driver" : "",
+  "login_method" : ""
 }
