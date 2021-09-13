@@ -13,12 +13,12 @@ COPY . .
 RUN wget https://chromedriver.storage.googleapis.com/$(curl https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip
 
-ENV DOCKER = 1
-ENV USERID = 123456
-ENV moodle_host = "https://moodle.org"
-ENV moodle_username = "example@example.edu"
-ENV moodle_password = "123456"
-ENV chrome_driver = "./chromedriver"
-ENV Discord_APIKEY = ""
+ENV DOCKER 1
+ENV USERID ""
+ENV moodle_host ""
+ENV moodle_username ""
+ENV moodle_password ""
+ENV chrome_driver "./chromedriver"
+ENV Discord_APIKEY ""
 
 CMD [ "python", "./main.py" ]
