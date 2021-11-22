@@ -9,7 +9,7 @@ Clone this repository and update the details on config.json.
 ### Requirements 
 
 ```bash
-pip install selenium discord pytz python-dotenv requests urllib3
+pip install selenium discord pytz python-dotenv requests urllib3 beautifulsoup4 markdownify
 ```
 
 ## Usage
