@@ -6,7 +6,7 @@ import html
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
-import pytz
+from markdownify import markdownify
 
 dcbot = discord.ext.commands.Bot(command_prefix="%")
 
@@ -24,7 +24,7 @@ async def due(ctx):
         for i in data:
             embed = discord.Embed(title=(i['name']).replace(" is due", ""),
                                   url=html.unescape(i['action']['url']),
-                                  description=i['description'], color=0x00ff59)
+                                  description=markdownify(i['description']), color=0x00ff59)
             embed.set_author(name=i['course']['fullname'],
                              url=i['course']['viewurl'])
             embed.add_field(name="Due date",
